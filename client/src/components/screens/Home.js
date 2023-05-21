@@ -12,7 +12,6 @@ const Home = () => {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
         setProfile(result);
       });
   }, []);
@@ -23,7 +22,10 @@ const Home = () => {
         <div className="mycard">
           <div className="card auth-card input-field">
             <div>
-              <Link to={`/edituser/${userProfile.user._id}`}>
+              <Link
+                to={`/edituser/${userProfile.user._id}`}
+                state={{ user: userProfile.user }}
+              >
                 <i className="material-icons" style={{ float: "right" }}>
                   edit
                 </i>

@@ -1,28 +1,36 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../App";
 
 const Navbar = () => {
+  const { state, dispatch } = useContext(UserContext);
   const navigate = useNavigate();
   const renderList = () => {
-    return [
-      <li>
-        <Link to={"/signin"}>Signin</Link>
-      </li>,
-      <li>
-        <Link to={"/signup"}>Signup</Link>
-      </li>,
-      <li>
-        <button
-          className="btn-small waves-effect waves-light #d32f2f red darken-2"
-          onClick={() => {
-            localStorage.clear();
-            navigate("/signin");
-          }}
-        >
-          SignOut
-        </button>
-      </li>,
-    ];
+    if (state) {
+      return [
+        <li>
+          <button
+            className="btn-small waves-effect waves-light #d32f2f red darken-2"
+            onClick={() => {
+              localStorage.clear();
+              dispatch({ type: "CLEAR" });
+              navigate("/signin");
+            }}
+          >
+            SignOut
+          </button>
+        </li>,
+      ];
+    } else {
+      return [
+        <li>
+          <Link to={"/signin"}>Signin</Link>
+        </li>,
+        <li>
+          <Link to={"/signup"}>Signup</Link>
+        </li>,
+      ];
+    }
   };
   return (
     <nav>

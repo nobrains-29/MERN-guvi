@@ -1,8 +1,10 @@
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../../App";
 import M from "materialize-css";
 
 const Signin = () => {
+  const { state, dispatch } = useContext(UserContext);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
@@ -26,12 +28,12 @@ const Signin = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.error) {
           M.toast({ html: data.error, classes: "#d32f2f red darken-2" });
         } else {
           localStorage.setItem("jwt", data.token);
           localStorage.setItem("user", JSON.stringify(data.user));
+          dispatch({ type: "USER", payload: data.user });
           M.toast({
             html: "SignedIn Successfully",
             classes: "#689f38 light-green darken-2",

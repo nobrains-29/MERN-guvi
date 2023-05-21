@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import M from "materialize-css";
 
 const EditUser = () => {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [age, setAge] = useState("");
-  const [mobile, setMobile] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const { user } = location.state;
+
+  const [name, setName] = useState(user.name);
+  // const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(user.email);
+  const [age, setAge] = useState(user.age);
+  const [mobile, setMobile] = useState(user.mobile);
 
   const { userId } = useParams();
 
@@ -27,7 +31,6 @@ const EditUser = () => {
       },
       body: JSON.stringify({
         name,
-        password,
         email,
         age,
         mobile,
@@ -69,12 +72,6 @@ const EditUser = () => {
           placeholder="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
         />
         <input
           type="number"
